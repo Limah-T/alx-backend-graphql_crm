@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'crm',
     'graphene_django',
+    'django_filters',
 ]
 
 SITE_ID = 1

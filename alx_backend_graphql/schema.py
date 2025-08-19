@@ -19,4 +19,5 @@ class Query(graphene.ObjectType):
     def resolve_crm_model(self, info):
         return CRMModel.objects.first()
 
+
 schema = graphene.Schema(query=Query)
