@@ -9,7 +9,7 @@ class CRMModelType(DjangoObjectType):
         model = CRMModel
         fields = ('id', 'name')
 
-class Query(ObjectType):
+class Query(graphene.ObjectType):
     crm_model = graphene.Field(CRMModelType)
     all_crm_models = graphene.List(CRMModelType)
 
