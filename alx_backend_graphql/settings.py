@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'crm',
     'graphene_django',
     'django_filters',
+    'django_crontab',
 ]
 
 SITE_ID = 1
@@ -113,3 +114,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GRAPHENE = {
     "SCHEMA": "alx-backend-graphql.schema.schema"
 }
+
+CRONJOBS = [
+    ('*/5 * * * *', 'crm.cron_jobs.delete_inactive_customers.Command >> /tmp/customer_cleanup_log.txt 2>&1')
+]
