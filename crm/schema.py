@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.core.validators import validate_email
 from django.utils import timezone
+from django.db.models import Sum
 import re
 
 
@@ -321,3 +322,17 @@ class UpdateLowStockProducts(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
     update_low_stock_products = UpdateLowStockProducts.Field()
+
+class Query(graphene.ObjectType):
+    total_customers = graphene.Int()
+    total_orders = graphene.Int()
+    total_revenue = graphene.Float()
+
+    def resolve_total_customers(root, info):
+        return Customer.objects.count()
+
+    def resolve_total_orders(root, info):
+        return Order.objects.count()
+
+    def resolve_total_revenue(root, info):
+        return Order.objects.aggregate(total=Sum("totalamount"))["total"] or 0.0
