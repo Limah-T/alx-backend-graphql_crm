@@ -6,6 +6,7 @@ from .filters import CustomerFilter, ProductFilter, OrderFilter
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.core.validators import validate_email
+from django.utils import timezone
 import re
 
 
@@ -288,3 +289,34 @@ class Query(graphene.ObjectType):
 
     def resolve_all_orders(self, info, **kwargs):
         return OrderFilter(kwargs).qs
+
+class ProductType(DjangoObjectType):
+    class Meta:
+        model = Product
+        fields = ("id", "name", "stock")
+
+
+class UpdateLowStockProducts(graphene.Mutation):
+    class Arguments:
+        pass  # no arguments needed
+
+    updated_products = graphene.List(ProductType)
+    message = graphene.String()
+
+    def mutate(self, info):
+        low_stock_products = Product.objects.filter(stock__lt=10)
+        updated_products = []
+
+        for product in low_stock_products:
+            product.stock += 10  # simulate restock
+            product.save()
+            updated_products.append(product)
+
+        return UpdateLowStockProducts(
+            updated_products=updated_products,
+            message=f"Updated {len(updated_products)} low-stock products at {timezone.now()}",
+        )
+
+
+class Mutation(graphene.ObjectType):
+    update_low_stock_products = UpdateLowStockProducts.Field()
