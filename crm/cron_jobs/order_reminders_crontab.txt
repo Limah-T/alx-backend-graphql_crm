@@ -1,0 +1,1 @@
+0 8 * * * /usr/bin/python3 /path/to/your/project/crm/cron_jobs/send_order_reminders.py
