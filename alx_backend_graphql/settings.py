@@ -116,5 +116,7 @@ GRAPHENE = {
 }
 
 CRONJOBS = [
-    ('*/5 * * * *', 'crm.cron_jobs.delete_inactive_customers.Command >> /tmp/customer_cleanup_log.txt 2>&1')
+    ('*/5 * * * *', 'crm.cron_jobs.delete_inactive_customers.Command >> /tmp/customer_cleanup_log.txt 2>&1'),
+    ('*/5 * * * *', 'crm.cron.log_crm_heartbeat'),
 ]
+
