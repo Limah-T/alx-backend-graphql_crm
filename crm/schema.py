@@ -1,7 +1,8 @@
 import graphene
 from graphene_django import DjangoObjectType, DjangoFilterConnectionField
 from django.db import transaction
-from .models import Customer, Product, Order
+from crm.models import Customer, Product, Order
+
 from .filters import CustomerFilter, ProductFilter, OrderFilter
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
